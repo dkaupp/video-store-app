@@ -11,8 +11,6 @@ const Movies = ({
   selectedGenre,
   sortColumn,
 }) => {
-  console.log(sortColumn);
-
   const filteredMovies = selectedGenre
     ? movies.filter((movie) => movie.genre._id === selectedGenre._id)
     : movies;

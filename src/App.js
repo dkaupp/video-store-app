@@ -24,18 +24,6 @@ function App() {
     setGenres(getGenres());
   }, []);
 
-  const onDelete = (movie) => {
-    setMovies(movies.filter((m) => m._id !== movie._id));
-  };
-
-  const onLiked = (movie) => {
-    setMovies(
-      movies.map((m) =>
-        m._id === movie._id ? { ...movie, liked: !movie.liked } : m
-      )
-    );
-  };
-
   const onSelectedGenre = (genre) => {
     setSelectedGenre(genre);
     setCurrentPage(1);
@@ -45,27 +33,18 @@ function App() {
     setCurrentPage(page);
   };
 
-  const handleSort = (path) => {
-    path === sortColumn.path
-      ? setSortColumn({
-          path,
-          order: sortColumn.order === "asc" ? "desc" : "asc",
-        })
-      : setSortColumn({ path: path, order: "asc" });
-  };
-
   return (
     <MoviesContext.Provider
       value={{
         movies: movies,
-        onDelete,
-        onLiked,
+        setMovies,
         handlePageChange,
         currentPage,
         pageSize,
         selectedGenre,
         onSelectedGenre,
-        handleSort,
+        setSortColumn,
+        sortColumn,
       }}
     >
       <div className="container" style={{ marginTop: 20 }}>

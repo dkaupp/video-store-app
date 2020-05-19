@@ -3,7 +3,19 @@ import MoviesContext from "../context/MoviesContext";
 import Liked from "./reusable/Liked";
 
 const TableBody = ({ movies }) => {
-  const { onDelete, onLiked } = useContext(MoviesContext);
+  const { setMovies, movies: allMovies } = useContext(MoviesContext);
+
+  const onDelete = (movie) => {
+    setMovies(allMovies.filter((m) => m._id !== movie._id));
+  };
+
+  const onLiked = (movie) => {
+    setMovies(
+      allMovies.map((m) =>
+        m._id === movie._id ? { ...movie, liked: !movie.liked } : m
+      )
+    );
+  };
 
   return (
     <tbody>
