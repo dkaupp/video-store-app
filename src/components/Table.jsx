@@ -2,11 +2,11 @@ import React from "react";
 import TableHeader from "./TableHeader";
 import TableBody from "./TableBody";
 
-const Table = () => {
+const Table = ({ movies }) => {
   return (
     <table className="table">
       <TableHeader />
-      <TableBody />
+      <TableBody movies={movies} />
     </table>
   );
 };

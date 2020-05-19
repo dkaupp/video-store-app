@@ -1,17 +1,13 @@
 import React, { useContext } from "react";
 import MoviesContext from "../context/MoviesContext";
 import Liked from "./reusable/Liked";
-import { paginate } from "./utils/paginate";
 
-const TableBody = () => {
-  const { movies, onDelete, onLiked, currentPage, pageSize } = useContext(
-    MoviesContext
-  );
-  const paginatedMovies = paginate(movies, currentPage, pageSize);
+const TableBody = ({ movies }) => {
+  const { onDelete, onLiked } = useContext(MoviesContext);
 
   return (
     <tbody>
-      {paginatedMovies.map((movie) => (
+      {movies.map((movie) => (
         <tr key={movie._id}>
           <td>{movie.title}</td>
           <td>{movie.genre.name}</td>

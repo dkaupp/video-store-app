@@ -12,6 +12,7 @@ function App() {
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedGenre, setSelectedGenre] = useState(null);
   const pageSize = 4;
 
   useEffect(() => {
@@ -31,6 +32,11 @@ function App() {
     );
   };
 
+  const onSelectedGenre = (genre) => {
+    setSelectedGenre(genre);
+    setCurrentPage(1);
+  };
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
@@ -44,18 +50,21 @@ function App() {
         handlePageChange,
         currentPage,
         pageSize,
+        selectedGenre,
+        onSelectedGenre,
       }}
     >
       <div className="container" style={{ marginTop: 20 }}>
         <div className="row">
           <div className="col-2">
-            <ListGroup genres={genres} />
+            <ListGroup onSelectedGenre={onSelectedGenre} genres={genres} />
           </div>
           <div className="col">
             <Movies
               movies={movies}
               currentPage={currentPage}
               pageSize={pageSize}
+              selectedGenre={selectedGenre}
             />
           </div>
         </div>
