@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
+import MoviesContext from "../context/MoviesContext";
 
 const TableHeader = () => {
+  const { handleSort } = useContext(MoviesContext);
   return (
     <thead>
       <tr>
-        <th scope="col">title</th>
-        <th scope="col">Genre</th>
-        <th scope="col">Stock</th>
-        <th scope="col">Rate</th>
+        <th onClick={() => handleSort("title")} scope="col">
+          Title
+        </th>
+        <th onClick={() => handleSort("genre.name")} scope="col">
+          Genre
+        </th>
+        <th onClick={() => handleSort("numberInStock")} scope="col">
+          Stock
+        </th>
+        <th onClick={() => handleSort("dailyRentalRate")} scope="col">
+          Rate
+        </th>
         <th scope="col"></th>
         <th scope="col"></th>
       </tr>

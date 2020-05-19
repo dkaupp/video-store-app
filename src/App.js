@@ -13,6 +13,10 @@ function App() {
   const [genres, setGenres] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedGenre, setSelectedGenre] = useState(null);
+  const [sortColumn, setSortColumn] = useState({
+    path: "title",
+    order: "asc",
+  });
   const pageSize = 4;
 
   useEffect(() => {
@@ -41,6 +45,15 @@ function App() {
     setCurrentPage(page);
   };
 
+  const handleSort = (path) => {
+    path === sortColumn.path
+      ? setSortColumn({
+          path,
+          order: sortColumn.order === "asc" ? "desc" : "asc",
+        })
+      : setSortColumn({ path: path, order: "asc" });
+  };
+
   return (
     <MoviesContext.Provider
       value={{
@@ -52,6 +65,7 @@ function App() {
         pageSize,
         selectedGenre,
         onSelectedGenre,
+        handleSort,
       }}
     >
       <div className="container" style={{ marginTop: 20 }}>
@@ -65,6 +79,7 @@ function App() {
               currentPage={currentPage}
               pageSize={pageSize}
               selectedGenre={selectedGenre}
+              sortColumn={sortColumn}
             />
           </div>
         </div>
