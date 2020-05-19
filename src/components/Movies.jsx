@@ -1,7 +1,6 @@
 import React from "react";
 import Table from "./Table";
 import Pagination from "./Pagination";
-import { paginate } from "./utils/paginate";
 
 const Movies = ({ movies, currentPage, pageSize }) => {
   const count = movies.length;
