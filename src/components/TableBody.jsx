@@ -1,38 +1,19 @@
-import React, { useContext } from "react";
-import MoviesContext from "../context/MoviesContext";
-import Liked from "./reusable/Liked";
+import React from "react";
 
-const TableBody = ({ movies }) => {
-  const { setMovies, movies: allMovies } = useContext(MoviesContext);
+import _ from "lodash";
 
-  const onDelete = (movie) => {
-    setMovies(allMovies.filter((m) => m._id !== movie._id));
-  };
-
-  const onLiked = (movie) => {
-    setMovies(
-      allMovies.map((m) =>
-        m._id === movie._id ? { ...movie, liked: !movie.liked } : m
-      )
-    );
-  };
-
+const TableBody = ({ movies, columns }) => {
   return (
     <tbody>
       {movies.map((movie) => (
         <tr key={movie._id}>
-          <td>{movie.title}</td>
-          <td>{movie.genre.name}</td>
-          <td>{movie.numberInStock}</td>
-          <td>{movie.dailyRentalRate}</td>
-          <td>
-            <Liked onClick={() => onLiked(movie)} liked={movie.liked} />
-          </td>
-          <td>
-            <button onClick={() => onDelete(movie)} className="btn btn-danger">
-              Delete
-            </button>
-          </td>
+          {columns.map((column) =>
+            column.content ? (
+              <td key={column.key}>{column.content(movie)}</td>
+            ) : (
+              <td key={column.path}>{_.get(movie, column.path)}</td>
+            )
+          )}
         </tr>
       ))}
     </tbody>
@@ -40,3 +21,12 @@ const TableBody = ({ movies }) => {
 };
 
 export default TableBody;
+
+{
+  /* <td>{movie.title}</td>
+          <td>{movie.genre.name}</td>
+          <td>{movie.numberInStock}</td>
+          <td>{movie.dailyRentalRate}</td>
+        
+          </td> */
+}

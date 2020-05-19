@@ -17,7 +17,6 @@ function App() {
     path: "title",
     order: "asc",
   });
-  const pageSize = 4;
 
   useEffect(() => {
     setMovies(getMovies());
@@ -40,7 +39,6 @@ function App() {
         setMovies,
         handlePageChange,
         currentPage,
-        pageSize,
         selectedGenre,
         onSelectedGenre,
         setSortColumn,
@@ -56,7 +54,6 @@ function App() {
             <Movies
               movies={movies}
               currentPage={currentPage}
-              pageSize={pageSize}
               selectedGenre={selectedGenre}
               sortColumn={sortColumn}
             />

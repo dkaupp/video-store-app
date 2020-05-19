@@ -4,13 +4,9 @@ import Pagination from "./Pagination";
 import { paginate } from "./utils/paginate";
 import _ from "lodash";
 
-const Movies = ({
-  movies,
-  currentPage,
-  pageSize,
-  selectedGenre,
-  sortColumn,
-}) => {
+const Movies = ({ movies, currentPage, selectedGenre, sortColumn }) => {
+  const pageSize = 4;
+
   const filteredMovies = selectedGenre
     ? movies.filter((movie) => movie.genre._id === selectedGenre._id)
     : movies;
