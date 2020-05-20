@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import _ from "lodash";
 import MoviesContext from "../context/MoviesContext";
+import { Link } from "react-router-dom";
 
 const Pagination = ({ currentPage, count, pageSize }) => {
   const { setCurrentPage } = useContext(MoviesContext);
@@ -18,28 +19,28 @@ const Pagination = ({ currentPage, count, pageSize }) => {
     <div>
       <ul className="pagination">
         <li className="page-item">
-          <a className="page-link" href="!#">
+          <Link className="page-link" to="!#">
             Previous
-          </a>
+          </Link>
         </li>
         {pages.map((page) => (
           <li
             key={page}
             className={page === currentPage ? "page-item active" : "page-item"}
           >
-            <a
+            <Link
               onClick={() => handlePageChange(page)}
               className="page-link"
-              href="!#"
+              to="!#"
             >
               {page}
-            </a>
+            </Link>
           </li>
         ))}
         <li className="page-item">
-          <a className="page-link" href="!#">
+          <Link className="page-link" to="!#">
             Next
-          </a>
+          </Link>
         </li>
       </ul>
     </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import MoviesContext from "./context/MoviesContext";
 import { Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
@@ -11,6 +11,7 @@ import NotFound from "./components/NotFound";
 import Customers from "./components/Customers";
 import Rentals from "./components/Rentals";
 import LoginForm from "./components/LoginForm";
+import NavBar from "./components/NavBar";
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -42,16 +43,21 @@ function App() {
         setCurrentPage,
       }}
     >
-      <div className="container" style={{ marginTop: 20 }}>
-        <Switch>
-          <Route path="/customers" component={Customers} />
-          <Route path="/login-form" component={LoginForm} />
-          <Route path="/rentals" component={Rentals} />
-          <Route path="/not-found" component={NotFound} />
-          <Route path="/" exact component={Movies} />
-          <Redirect to="/not-found" />
-        </Switch>
-      </div>
+      <Fragment>
+        <NavBar />
+
+        <div className="container" style={{ marginTop: 10 }}>
+          <Switch>
+            <Route path="/customers" component={Customers} />
+            <Route path="/login-form" component={LoginForm} />
+            <Route path="/rentals" component={Rentals} />
+            <Route path="/not-found" component={NotFound} />
+            <Route path="/movies" component={Movies} />
+            <Redirect from="/" to="/movies" />
+            <Redirect to="/not-found" />
+          </Switch>
+        </div>
+      </Fragment>
     </MoviesContext.Provider>
   );
 }
