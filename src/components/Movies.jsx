@@ -1,10 +1,16 @@
-import React from "react";
+import React, { Fragment, useContext } from "react";
 import Table from "./Table";
 import Pagination from "./Pagination";
+import ListGroup from "./ListGroup";
 import { paginate } from "./utils/paginate";
 import _ from "lodash";
+import MoviesContext from "../context/MoviesContext";
 
-const Movies = ({ movies, currentPage, selectedGenre, sortColumn }) => {
+const Movies = () => {
+  const { movies, currentPage, selectedGenre, sortColumn } = useContext(
+    MoviesContext
+  );
+
   const pageSize = 4;
 
   const filteredMovies = selectedGenre
@@ -21,11 +27,22 @@ const Movies = ({ movies, currentPage, selectedGenre, sortColumn }) => {
 
   if (count === 0) return <p>There are no movies in the database </p>;
   return (
-    <div className="container">
-      <p>{`There are ${count} movies in the database`}</p>
-      <Table movies={paginatedMovies} />
-      <Pagination count={count} currentPage={currentPage} pageSize={pageSize} />
-    </div>
+    <Fragment>
+      <div className="row">
+        <div className="col-2">
+          <ListGroup />
+        </div>
+        <div className="col">
+          <p>{`There are ${count} movies in the database`}</p>
+          <Table movies={paginatedMovies} />
+          <Pagination
+            count={count}
+            currentPage={currentPage}
+            pageSize={pageSize}
+          />
+        </div>
+      </div>
+    </Fragment>
   );
 };
 

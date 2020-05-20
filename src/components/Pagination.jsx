@@ -3,7 +3,12 @@ import _ from "lodash";
 import MoviesContext from "../context/MoviesContext";
 
 const Pagination = ({ currentPage, count, pageSize }) => {
-  const { handlePageChange } = useContext(MoviesContext);
+  const { setCurrentPage } = useContext(MoviesContext);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   const numbPages = Math.ceil(count / pageSize);
 
   if (numbPages === 1) return null;

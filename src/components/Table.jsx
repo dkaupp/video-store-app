@@ -55,7 +55,7 @@ const Table = ({ movies }) => {
   return (
     <table className="table">
       <TableHeader columns={columns} />
-      <TableBody movies={movies} columns={columns} />
+      <TableBody data={movies} columns={columns} />
     </table>
   );
 };

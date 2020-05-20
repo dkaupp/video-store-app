@@ -2,18 +2,18 @@ import React from "react";
 
 import _ from "lodash";
 
-const TableBody = ({ movies, columns }) => {
+const TableBody = ({ data, columns }) => {
+  const renderCell = (item, column) =>
+    column.content ? column.content(item) : _.get(item, column.path);
+
+  const createId = (item, column) => item._id + (column.path || column.key);
   return (
     <tbody>
-      {movies.map((movie) => (
-        <tr key={movie._id}>
-          {columns.map((column) =>
-            column.content ? (
-              <td key={column.key}>{column.content(movie)}</td>
-            ) : (
-              <td key={column.path}>{_.get(movie, column.path)}</td>
-            )
-          )}
+      {data.map((item) => (
+        <tr key={item._id}>
+          {columns.map((column) => (
+            <td key={createId(item, column)}>{renderCell(item, column)}</td>
+          ))}
         </tr>
       ))}
     </tbody>
@@ -21,12 +21,3 @@ const TableBody = ({ movies, columns }) => {
 };
 
 export default TableBody;
-
-{
-  /* <td>{movie.title}</td>
-          <td>{movie.genre.name}</td>
-          <td>{movie.numberInStock}</td>
-          <td>{movie.dailyRentalRate}</td>
-        
-          </td> */
-}

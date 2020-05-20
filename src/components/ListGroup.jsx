@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useContext } from "react";
+import MoviesContext from "../context/MoviesContext";
 
-const ListGroup = ({ genres, onSelectedGenre }) => {
+const ListGroup = () => {
+  const {
+    genres,
+    setSelectedGenre,
+    setCurrentPage,
+    selectedGenre,
+  } = useContext(MoviesContext);
+
+  const onSelectedGenre = (genre) => {
+    setSelectedGenre(genre);
+    setCurrentPage(1);
+  };
+
   return (
-    <ul className="list-group">
+    <ul className="list-group" style={{ cursor: "pointer" }}>
       <li
-        className="list-group-item active"
+        className={
+          !selectedGenre ? "list-group-item active" : "list-group-item"
+        }
         onClick={() => onSelectedGenre(null)}
       >
         All Genres
@@ -12,7 +27,11 @@ const ListGroup = ({ genres, onSelectedGenre }) => {
       {genres.map((genre) => (
         <li
           key={genre._id}
-          className="list-group-item"
+          className={
+            selectedGenre && selectedGenre._id === genre._id
+              ? "list-group-item active"
+              : "list-group-item"
+          }
           onClick={() => onSelectedGenre(genre)}
         >
           {genre.name}
