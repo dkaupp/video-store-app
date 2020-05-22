@@ -1,7 +1,6 @@
 import Joi from "joi-browser";
-
 const schema = {
-  username: Joi.string().min(5).max(30).required().label("User Name"),
+  username: Joi.string().email().min(5).max(30).required().label("User Name"),
   password: Joi.string().min(5).max(30).required().label("Password"),
 };
 

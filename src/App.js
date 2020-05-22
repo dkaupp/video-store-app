@@ -13,6 +13,7 @@ import Rentals from "./components/Rentals";
 import LoginForm from "./components/LoginForm";
 import NavBar from "./components/NavBar";
 import MovieForm from "./components/MovieForm";
+import RegisterForm from "./components/RegisterForm";
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -53,6 +54,15 @@ function App() {
             <Route path="/login-form" component={LoginForm} />
             <Route path="/rentals" component={Rentals} />
             <Route path="/not-found" component={NotFound} />
+            <Route
+              path="/register"
+              render={(props) => (
+                <RegisterForm
+                  {...props}
+                  data={{ username: "", password: "" }}
+                />
+              )}
+            />
             <Route path="/movies" component={Movies} />
             <Redirect from="/" to="/movies" />
             <Redirect to="/not-found" />
