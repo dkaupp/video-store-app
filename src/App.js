@@ -12,6 +12,7 @@ import Customers from "./components/Customers";
 import Rentals from "./components/Rentals";
 import LoginForm from "./components/LoginForm";
 import NavBar from "./components/NavBar";
+import MovieForm from "./components/MovieForm";
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -40,7 +41,6 @@ function App() {
         sortColumn,
         genres,
         setSelectedGenre,
-        setCurrentPage,
       }}
     >
       <Fragment>
@@ -48,6 +48,7 @@ function App() {
 
         <div className="container" style={{ marginTop: 10 }}>
           <Switch>
+            <Route path="/movies/:id" component={MovieForm} />
             <Route path="/customers" component={Customers} />
             <Route path="/login-form" component={LoginForm} />
             <Route path="/rentals" component={Rentals} />

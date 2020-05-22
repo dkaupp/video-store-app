@@ -3,6 +3,7 @@ import TableHeader from "./TableHeader";
 import TableBody from "./TableBody";
 import Liked from "./reusable/Liked";
 import MoviesContext from "../context/MoviesContext";
+import { Link } from "react-router-dom";
 
 const Table = ({ movies }) => {
   const { setMovies, movies: allMovies } = useContext(MoviesContext);
@@ -11,6 +12,9 @@ const Table = ({ movies }) => {
     {
       path: "title",
       label: "Title",
+      content: (movie) => (
+        <Link to={`/movies/${movie._id}`}>{movie.title}</Link>
+      ),
     },
     {
       path: "genre.name",

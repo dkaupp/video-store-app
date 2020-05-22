@@ -19,7 +19,7 @@ const Pagination = ({ currentPage, count, pageSize }) => {
     <div>
       <ul className="pagination">
         <li className="page-item">
-          <Link className="page-link" to="!#">
+          <Link className="page-link" to="#">
             Previous
           </Link>
         </li>
@@ -31,14 +31,14 @@ const Pagination = ({ currentPage, count, pageSize }) => {
             <Link
               onClick={() => handlePageChange(page)}
               className="page-link"
-              to="!#"
+              to="#"
             >
               {page}
             </Link>
           </li>
         ))}
         <li className="page-item">
-          <Link className="page-link" to="!#">
+          <Link className="page-link" to="#">
             Next
           </Link>
         </li>
