@@ -1,20 +1,20 @@
 import React, { useEffect, useContext, useState } from "react";
 import { getMovie, saveMovie } from "../services/fakeMovieService";
+import { getGenres } from "../services/fakeGenreService";
 import Joi from "joi-browser";
 import Form from "./reusable/Form";
-import MoviesContext from "../context/MoviesContext";
 
 const MovieForm = ({ match, history }) => {
-  const { genres } = useContext(MoviesContext);
-
   const [data, setData] = useState({
     title: "",
     genreId: "",
     numberInStock: "",
     dailyRentalRate: "",
   });
+  const [genres, setGenres] = useState([]);
 
   useEffect(() => {
+    setGenres(getGenres());
     if (match.params.id === "new") return;
 
     const movie = getMovie(match.params.id);
