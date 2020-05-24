@@ -4,6 +4,7 @@ import TableBody from "./TableBody";
 import Liked from "./reusable/Liked";
 import MoviesContext from "../context/MoviesContext";
 import { Link } from "react-router-dom";
+import { deleteMovie } from "../services/fakeMovieService";
 
 const Table = ({ movies }) => {
   const { setMovies, movies: allMovies } = useContext(MoviesContext);
@@ -45,7 +46,9 @@ const Table = ({ movies }) => {
   ];
 
   const onDelete = (movie) => {
-    setMovies(allMovies.filter((m) => m._id !== movie._id));
+    const deletedMovie = deleteMovie(movie._id);
+    console.log(deletedMovie);
+    setMovies(allMovies.filter((m) => m._id !== deleteMovie._id));
   };
 
   const onLiked = (movie) => {

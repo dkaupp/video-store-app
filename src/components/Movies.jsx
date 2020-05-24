@@ -1,21 +1,47 @@
-import React, { Fragment, useContext } from "react";
-import Table from "./Table";
-import Pagination from "./Pagination";
-import ListGroup from "./ListGroup";
+import React, { Fragment, useContext, useEffect } from "react";
 import { paginate } from "./utils/paginate";
 import _ from "lodash";
 import MoviesContext from "../context/MoviesContext";
+import { getMovies } from "../services/fakeMovieService.js";
 
-const Movies = () => {
-  const { movies, currentPage, selectedGenre, sortColumn } = useContext(
-    MoviesContext
-  );
+import Table from "./Table";
+import Pagination from "./Pagination";
+import ListGroup from "./ListGroup";
+import SearchBar from "./reusable/SearchBar";
+
+const Movies = ({ history }) => {
+  const {
+    movies,
+    setMovies,
+    selectedGenre,
+    setSelectedGenre,
+    searchQuery,
+    setSearchQuery,
+    sortColumn,
+    setCurrentPage,
+    currentPage,
+  } = useContext(MoviesContext);
+
+  useEffect(() => {
+    setMovies(getMovies());
+  }, []);
 
   const pageSize = 4;
 
-  const filteredMovies = selectedGenre
-    ? movies.filter((movie) => movie.genre._id === selectedGenre._id)
-    : movies;
+  const filterMovies = (movies, selectedGenre, searchQuery) => {
+    if (selectedGenre) {
+      return movies.filter((movie) => movie.genre._id === selectedGenre._id);
+    }
+    if (searchQuery) {
+      return movies.filter((movie) =>
+        movie.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+    return movies;
+  };
+
+  const filteredMovies = filterMovies(movies, selectedGenre, searchQuery);
+
   const count = filteredMovies.length;
   const sorted = _.orderBy(
     filteredMovies,
@@ -25,7 +51,6 @@ const Movies = () => {
 
   const paginatedMovies = paginate(sorted, currentPage, pageSize);
 
-  if (count === 0) return <p>There are no movies in the database </p>;
   return (
     <Fragment>
       <div className="row">
@@ -33,7 +58,16 @@ const Movies = () => {
           <ListGroup />
         </div>
         <div className="col">
+          <button
+            style={{ marginBottom: "10px" }}
+            className="btn btn-primary"
+            onClick={() => history.push("/movies/new")}
+          >
+            New Movie
+          </button>
+
           <p>{`There are ${count} movies in the database`}</p>
+          <SearchBar />
           <Table movies={paginatedMovies} />
           <Pagination
             count={count}

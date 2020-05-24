@@ -1,10 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Joi from "joi-browser";
 import Input from "./Input";
+import Select from "./Select";
 
-const Form = ({ data: newData, formName, schema, inputProps }) => {
+const Form = ({
+  data: newData,
+  formName,
+  schema,
+  inputProps,
+  selectOptions,
+  handleSubmitData,
+}) => {
   const [data, setData] = useState(newData);
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    setData(newData);
+  }, [newData]);
 
   const handleChange = ({ target: { name, value } }) => {
     const error = { ...errors };
@@ -22,6 +34,7 @@ const Form = ({ data: newData, formName, schema, inputProps }) => {
     if (errors !== null) return setErrors(errors);
 
     console.log("access granted");
+    handleSubmitData(data);
   };
 
   const validate = (data) => {
@@ -42,7 +55,6 @@ const Form = ({ data: newData, formName, schema, inputProps }) => {
 
     return error ? error.details[0].message : null;
   };
-
   return (
     <div>
       <h1>{formName}</h1>
@@ -52,12 +64,25 @@ const Form = ({ data: newData, formName, schema, inputProps }) => {
             key={input.name}
             value={data[input.name]}
             name={input.name}
+            id={input.name}
             onChange={handleChange}
             error={errors[input.name]}
             label={input.label}
             type={input.type}
           />
         ))}
+        {selectOptions && (
+          <Select
+            key={selectOptions.name}
+            value={data[selectOptions.name]}
+            name={selectOptions.name}
+            id={selectOptions.name}
+            onChange={handleChange}
+            error={errors[selectOptions.name]}
+            label={selectOptions.label}
+            options={selectOptions.options}
+          />
+        )}
         <button
           type="submit"
           className="btn btn-primary"

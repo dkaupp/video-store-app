@@ -1,16 +1,77 @@
-import React from "react";
+import React, { useEffect, useContext, useState } from "react";
+import { getMovie, saveMovie } from "../services/fakeMovieService";
+import Joi from "joi-browser";
+import Form from "./reusable/Form";
+import MoviesContext from "../context/MoviesContext";
 
 const MovieForm = ({ match, history }) => {
+  const { genres } = useContext(MoviesContext);
+
+  const [data, setData] = useState({
+    title: "",
+    genreId: "",
+    numberInStock: "",
+    dailyRentalRate: "",
+  });
+
+  useEffect(() => {
+    if (match.params.id === "new") return;
+
+    const movie = getMovie(match.params.id);
+    if (!movie) {
+      return history.replace("/not-found");
+    }
+    setData(mapToViewModel(movie));
+  }, []);
+
+  const mapToViewModel = (movie) => ({
+    _id: movie._id,
+    title: movie.title,
+    genre: movie.genre.name,
+    genreId: movie.genre._id,
+    numberInStock: movie.numberInStock,
+    dailyRentalRate: movie.dailyRentalRate,
+  });
+
+  const schema = {
+    title: Joi.string().min(5).max(30).required().label("Title"),
+    numberInStock: Joi.number()
+      .min(1)
+      .max(100)
+      .required()
+      .label("Number in Stock"),
+    dailyRentalRate: Joi.number().min(0).max(10).required().label("Rate"),
+    genreId: Joi.string().label("Genre"),
+    _id: Joi.string().label("MovieId"),
+    genre: Joi.string().label("Genre"),
+  };
+
+  const inputProps = [
+    { name: "title", type: "text", label: "Title" },
+    { name: "numberInStock", type: "number", label: "Number in Stock" },
+    { name: "dailyRentalRate", type: "number", label: "Rate" },
+  ];
+
+  const selectOptions = {
+    name: "genreId",
+    label: "Genre",
+    options: [...genres],
+  };
+
+  const handleSubmitData = (newMovie) => {
+    saveMovie(newMovie);
+    history.push("/");
+  };
+
   return (
-    <div>
-      <h1>Movie Form {match.params.id}</h1>
-      <button
-        className="btn btn-primary"
-        onClick={() => history.push("/movies")}
-      >
-        Save
-      </button>
-    </div>
+    <Form
+      data={data}
+      formName={data.title}
+      schema={schema}
+      inputProps={inputProps}
+      selectOptions={selectOptions}
+      handleSubmitData={handleSubmitData}
+    />
   );
 };
 

@@ -24,6 +24,7 @@ function App() {
     path: "title",
     order: "asc",
   });
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     setMovies(getMovies());
@@ -42,6 +43,8 @@ function App() {
         sortColumn,
         genres,
         setSelectedGenre,
+        searchQuery,
+        setSearchQuery,
       }}
     >
       <Fragment>
@@ -49,21 +52,13 @@ function App() {
 
         <div className="container" style={{ marginTop: 10 }}>
           <Switch>
-            <Route path="/movies/:id" component={MovieForm} />
-            <Route path="/customers" component={Customers} />
-            <Route path="/login-form" component={LoginForm} />
-            <Route path="/rentals" component={Rentals} />
-            <Route path="/not-found" component={NotFound} />
-            <Route
-              path="/register"
-              render={(props) => (
-                <RegisterForm
-                  {...props}
-                  data={{ username: "", password: "" }}
-                />
-              )}
-            />
-            <Route path="/movies" component={Movies} />
+            <Route exact path="/customers" component={Customers} />
+            <Route exact path="/login-form" component={LoginForm} />
+            <Route exact path="/rentals" component={Rentals} />
+            <Route exact path="/not-found" component={NotFound} />
+            <Route exact path="/register" component={RegisterForm} />
+            <Route exact path="/movies" component={Movies} />\
+            <Route exact path="/movies/:id" component={MovieForm} />
             <Redirect from="/" to="/movies" />
             <Redirect to="/not-found" />
           </Switch>

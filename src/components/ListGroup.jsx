@@ -7,11 +7,13 @@ const ListGroup = () => {
     setSelectedGenre,
     setCurrentPage,
     selectedGenre,
+    setSearchQuery,
   } = useContext(MoviesContext);
 
   const onSelectedGenre = (genre) => {
     setSelectedGenre(genre);
     setCurrentPage(1);
+    setSearchQuery("");
   };
 
   return (
