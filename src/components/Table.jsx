@@ -47,11 +47,11 @@ const Table = ({ movies }) => {
 
   const onDelete = (movie) => {
     const deletedMovie = deleteMovie(movie._id);
-    console.log(deletedMovie);
-    setMovies(allMovies.filter((m) => m._id !== deleteMovie._id));
+    setMovies(allMovies.filter((m) => m._id !== deletedMovie._id));
   };
 
   const onLiked = (movie) => {
+    console.log(movie);
     setMovies(
       allMovies.map((m) =>
         m._id === movie._id ? { ...movie, liked: !movie.liked } : m
