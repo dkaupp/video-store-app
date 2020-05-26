@@ -23,7 +23,7 @@ function App() {
           <Route exact path="/rentals" component={Rentals} />
           <Route exact path="/not-found" component={NotFound} />
           <Route exact path="/register" component={RegisterForm} />
-          <Route exact path="/movies" component={Movies} />\
+          <Route exact path="/movies" component={Movies} />
           <Route exact path="/movies/:id" component={MovieForm} />
           <Redirect exact from="/" to="/movies" />
           <Redirect to="/not-found" />

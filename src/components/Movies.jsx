@@ -1,9 +1,10 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { paginate } from "./utils/paginate";
-import _ from "lodash";
 import MoviesContext from "../context/MoviesContext";
-import { getMovies } from "../services/fakeMovieService.js";
-import { getGenres } from "../services/fakeGenreService";
+import _ from "lodash";
+
+import { paginate } from "./utils/paginate";
+import { getMovies } from "../services/moviesServices";
+import { getGenres } from "../services/genreServices";
 import { filterMovies } from "./utils/filtermovies";
 
 import Table from "./Table";
@@ -23,8 +24,13 @@ const Movies = ({ history }) => {
   });
 
   useEffect(() => {
-    setMovies(getMovies());
-    setGenres(getGenres());
+    async function fetchData() {
+      const { data: movies } = await getMovies();
+      const { data: genres } = await getGenres();
+      setMovies(movies);
+      setGenres(genres);
+    }
+    fetchData();
   }, []);
 
   const pageSize = 4;

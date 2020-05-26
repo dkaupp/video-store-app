@@ -16,6 +16,8 @@ const ListGroup = () => {
     setSearchQuery("");
   };
 
+  if (!genres) return null;
+
   return (
     <ul className="list-group" style={{ cursor: "pointer" }}>
       <li

@@ -4,7 +4,8 @@ import TableBody from "./TableBody";
 import Liked from "./reusable/Liked";
 import MoviesContext from "../context/MoviesContext";
 import { Link } from "react-router-dom";
-import { deleteMovie } from "../services/fakeMovieService";
+import { deleteMovie } from "../services/moviesServices";
+import { toast } from "react-toastify";
 
 const Table = ({ movies }) => {
   const { setMovies, movies: allMovies } = useContext(MoviesContext);
@@ -45,13 +46,21 @@ const Table = ({ movies }) => {
     },
   ];
 
-  const onDelete = (movie) => {
-    const deletedMovie = deleteMovie(movie._id);
-    setMovies(allMovies.filter((m) => m._id !== deletedMovie._id));
+  const onDelete = async (movie) => {
+    const originalMovies = allMovies;
+
+    setMovies(allMovies.filter((m) => m._id !== movie._id));
+
+    try {
+      await deleteMovie(movie._id);
+    } catch (error) {
+      if (error.response && error.response.status === 404)
+        toast.error("This movie has already been deleted.");
+      setMovies(originalMovies);
+    }
   };
 
   const onLiked = (movie) => {
-    console.log(movie);
     setMovies(
       allMovies.map((m) =>
         m._id === movie._id ? { ...movie, liked: !movie.liked } : m
