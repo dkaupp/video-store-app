@@ -28,13 +28,16 @@ const Form = ({
     setErrors(error);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const errors = validate(data, schema);
     if (errors !== null) return setErrors(errors);
+    const error = await handleSubmitData(data);
 
-    console.log("access granted");
-    handleSubmitData(data);
+    if (!error) return;
+    const errorList = { ...errors };
+    errorList.username = error;
+    setErrors(errorList);
   };
 
   const validate = (data) => {

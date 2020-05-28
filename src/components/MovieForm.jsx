@@ -1,6 +1,6 @@
-import React, { useEffect, useContext, useState } from "react";
-import { getMovie, saveMovie } from "../services/fakeMovieService";
-import { getGenres } from "../services/fakeGenreService";
+import React, { useEffect, useState } from "react";
+import { getMovie, saveMovie } from "../services/moviesServices";
+import { getGenres } from "../services/genreServices";
 import Joi from "joi-browser";
 import Form from "./reusable/Form";
 
@@ -13,15 +13,31 @@ const MovieForm = ({ match, history }) => {
   });
   const [genres, setGenres] = useState([]);
 
-  useEffect(() => {
-    setGenres(getGenres());
-    if (match.params.id === "new") return;
+  const populateGenres = async () => {
+    const { data: genres } = await getGenres();
+    setGenres(genres);
+  };
 
-    const movie = getMovie(match.params.id);
-    if (!movie) {
-      return history.replace("/not-found");
+  const populateMovie = async () => {
+    try {
+      if (match.params.id === "new") return;
+      const { data: movie } = await getMovie(match.params.id);
+
+      setData(mapToViewModel(movie));
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        return history.replace("/not-found");
+      }
     }
-    setData(mapToViewModel(movie));
+  };
+
+  useEffect(() => {
+    async function fetchData() {
+      await populateGenres();
+      await populateMovie();
+    }
+
+    fetchData();
   }, []);
 
   const mapToViewModel = (movie) => ({
@@ -58,8 +74,9 @@ const MovieForm = ({ match, history }) => {
     options: [...genres],
   };
 
-  const handleSubmitData = (newMovie) => {
-    saveMovie(newMovie);
+  const handleSubmitData = async (newMovie) => {
+    await saveMovie(newMovie);
+
     history.push("/");
   };
 
