@@ -20,8 +20,8 @@ const LoginForm = ({ history }) => {
 
   const handleSubmitData = async ({ username, password }) => {
     try {
-      const { data: jwt } = await login(username, password);
-      localStorage.setItem("token", jwt);
+      await login(username, password);
+
       window.location = "/";
       return null;
     } catch (ex) {

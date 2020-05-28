@@ -1,6 +1,7 @@
 import React from "react";
 import Form from "./reusable/Form";
 import { register } from "../services/userService";
+import auth from "../services/authService";
 
 import Joi from "joi-browser";
 
@@ -25,7 +26,7 @@ const RegisterForm = ({ history }) => {
   const handleSubmitData = async (data) => {
     try {
       const response = await register(data);
-      localStorage.setItem("token", response.headers["x-auth-token"]);
+      auth.loginWithJwt(response.headers["x-auth-token"]);
       window.location = "/";
 
       return null;

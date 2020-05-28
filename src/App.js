@@ -1,7 +1,8 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
+import auth from "./services/authService";
 import { ToastContainer } from "react-toastify";
-import jwtDecode from "jwt-decode";
+
 import UserContext from "./context/UserContext";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -20,9 +21,8 @@ import RegisterForm from "./components/RegisterForm";
 function App() {
   const [user, setUser] = useState(null);
   useEffect(() => {
-    const jwt = localStorage.getItem("token");
-    if (!jwt) return;
-    const user = jwtDecode(jwt);
+    const user = auth.getCurrentUser();
+    if (!user) return;
     setUser(user);
   }, []);
 
