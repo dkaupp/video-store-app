@@ -38,7 +38,7 @@ const NavBar = ({ user }) => {
           {!user && (
             <Fragment>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/login-form">
+                <NavLink className="nav-link" to="/login">
                   Login
                 </NavLink>
               </li>

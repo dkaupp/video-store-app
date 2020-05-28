@@ -17,6 +17,7 @@ import Logout from "./components/Logout";
 import NavBar from "./components/NavBar";
 import MovieForm from "./components/MovieForm";
 import RegisterForm from "./components/RegisterForm";
+import ProtectedRoute from "./components/reusable/ProtectedRoute";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -35,13 +36,13 @@ function App() {
         <div className="container" style={{ marginTop: 10 }}>
           <Switch>
             <Route exact path="/customers" component={Customers} />
-            <Route exact path="/login-form" component={LoginForm} />
+            <Route exact path="/login" component={LoginForm} />
             <Route exact path="/logout" component={Logout} />
             <Route exact path="/rentals" component={Rentals} />
             <Route exact path="/not-found" component={NotFound} />
             <Route exact path="/register" component={RegisterForm} />
             <Route exact path="/movies" component={Movies} />
-            <Route exact path="/movies/:id" component={MovieForm} />
+            <ProtectedRoute path="/movies/:id" component={MovieForm} />
             <Redirect exact from="/" to="/movies" />
             <Redirect to="/not-found" />
           </Switch>

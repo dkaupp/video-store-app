@@ -2,8 +2,10 @@ import React from "react";
 import Form from "./reusable/Form";
 import Joi from "joi-browser";
 import { login } from "../services/authService";
+import auth from "../services/authService";
+import { Redirect } from "react-router-dom";
 
-const LoginForm = ({ history }) => {
+const LoginForm = ({ location: { state } }) => {
   const data = {
     username: "",
     password: "",
@@ -22,7 +24,7 @@ const LoginForm = ({ history }) => {
     try {
       await login(username, password);
 
-      window.location = "/";
+      window.location = state ? state.from.pathname : "/";
       return null;
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
@@ -30,6 +32,8 @@ const LoginForm = ({ history }) => {
       }
     }
   };
+
+  if (auth.getCurrentUser()) return <Redirect to="/" />;
 
   return (
     <Form

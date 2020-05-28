@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useContext } from "react";
 import MoviesContext from "../context/MoviesContext";
 import _ from "lodash";
 
@@ -11,8 +11,11 @@ import Table from "./Table";
 import Pagination from "./Pagination";
 import ListGroup from "./ListGroup";
 import SearchBar from "./reusable/SearchBar";
+import UserContext from "../context/UserContext";
 
 const Movies = ({ history }) => {
+  const { user } = useContext(UserContext);
+
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -68,13 +71,15 @@ const Movies = ({ history }) => {
             <ListGroup />
           </div>
           <div className="col">
-            <button
-              style={{ marginBottom: "10px" }}
-              className="btn btn-primary"
-              onClick={() => history.push("/movies/new")}
-            >
-              New Movie
-            </button>
+            {user && (
+              <button
+                style={{ marginBottom: "10px" }}
+                className="btn btn-primary"
+                onClick={() => history.push("/movies/new")}
+              >
+                New Movie
+              </button>
+            )}
 
             <p>{`There are ${count} movies in the database`}</p>
             <SearchBar />

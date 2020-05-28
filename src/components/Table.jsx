@@ -3,20 +3,23 @@ import TableHeader from "./TableHeader";
 import TableBody from "./TableBody";
 import Liked from "./reusable/Liked";
 import MoviesContext from "../context/MoviesContext";
+import UserContext from "../context/UserContext";
 import { Link } from "react-router-dom";
 import { deleteMovie } from "../services/moviesServices";
 import { toast } from "react-toastify";
 
 const Table = ({ movies }) => {
   const { setMovies, movies: allMovies } = useContext(MoviesContext);
+  const { user } = useContext(UserContext);
 
   const columns = [
     {
       path: "title",
       label: "Title",
-      content: (movie) => (
-        <Link to={`/movies/${movie._id}`}>{movie.title}</Link>
-      ),
+      content:
+        user && user.isAdmin
+          ? (movie) => <Link to={`/movies/${movie._id}`}>{movie.title}</Link>
+          : null,
     },
     {
       path: "genre.name",
@@ -38,11 +41,17 @@ const Table = ({ movies }) => {
     },
     {
       key: "delete",
-      content: (movie) => (
-        <button onClick={() => onDelete(movie)} className="btn btn-danger">
-          Delete
-        </button>
-      ),
+      content:
+        user && user.isAdmin
+          ? (movie) => (
+              <button
+                onClick={() => onDelete(movie)}
+                className="btn btn-danger"
+              >
+                Delete
+              </button>
+            )
+          : null,
     },
   ];
 
