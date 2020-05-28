@@ -1,16 +1,15 @@
 import http from "./httpService";
-import { apiUrl } from "../config.json";
 
 export const getMovies = () => {
-  return http.get(`${apiUrl}/movies`);
+  return http.get("/movies");
 };
 
 export const deleteMovie = (movieId) => {
-  return http.delete(`${apiUrl}/movies/${movieId}`);
+  return http.delete(`/movies/${movieId}`);
 };
 
 export const getMovie = (movieId) => {
-  return http.get(`${apiUrl}/movies/${movieId}`);
+  return http.get(`/movies/${movieId}`);
 };
 
 export async function saveMovie(movie) {
@@ -22,7 +21,7 @@ export async function saveMovie(movie) {
     movieInDb.dailyRentalRate = movie.dailyRentalRate;
 
     try {
-      return await http.post(`${apiUrl}/movies`, movieInDb);
+      return await http.post("/movies", movieInDb);
     } catch (error) {
       console.log(error);
     }
@@ -35,7 +34,7 @@ export async function saveMovie(movie) {
     movieInDb.numberInStock = movie.numberInStock;
     movieInDb.dailyRentalRate = movie.dailyRentalRate;
 
-    return await http.put(`${apiUrl}/movies/${movie._id}`, movieInDb);
+    return await http.put(`/movies/${movie._id}`, movieInDb);
   } catch (error) {
     console.log(error.message);
   }
