@@ -16,10 +16,9 @@ const Table = ({ movies }) => {
     {
       path: "title",
       label: "Title",
-      content:
-        user && user.isAdmin
-          ? (movie) => <Link to={`/movies/${movie._id}`}>{movie.title}</Link>
-          : null,
+      content: user
+        ? (movie) => <Link to={`/movies/${movie._id}`}>{movie.title}</Link>
+        : null,
     },
     {
       path: "genre.name",
